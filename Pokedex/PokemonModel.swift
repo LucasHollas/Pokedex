@@ -37,10 +37,9 @@ class PokemonModel {
             throw FetchError.badURL }
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let data = data.removeNullsFrom(string: "null,") else { throw FetchError.badData }
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw FetchError.badResponse }
+        guard let data = data.removeNullsFrom(string: "null,") else { throw FetchError.badData }
 
-        
         let maybePokemonData = try JSONDecoder().decode([Pokemon].self, from: data)
         return maybePokemonData
     }
