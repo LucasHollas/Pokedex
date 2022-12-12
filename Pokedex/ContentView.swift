@@ -14,12 +14,13 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(pokemon) { poke in
-
+                Text(poke.name)
+                
             }
         }
         .navigationTitle("Pokemon")
         .onAppear {
-            async {
+            Task.init {
                 pokemon = try! await pokemonModel.getPokemon()
             }
         }
@@ -29,5 +30,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 14"))
+            .previewDisplayName("iPhone 14")
+        
     }
 }
