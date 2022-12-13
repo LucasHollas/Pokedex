@@ -23,6 +23,31 @@ struct Pokemon: Identifiable, Decodable {
         case type
         case description
     }
+    
+    var typeColor: Color {
+        switch type {
+        case "fire":
+            return Color(.systemRed)
+        case "poison":
+            return Color(.systemGreen)
+        case "water":
+            return Color(.systemTeal)
+        case "electric":
+            return Color(.systemYellow)
+        case "psychic":
+            return Color(.systemPurple)
+        case "normal":
+            return Color(.systemOrange)
+        case "ground":
+            return Color(.systemBrown)
+        case "flying":
+            return Color(.systemBlue)
+        case "fairy":
+            return Color(.systemPink)
+        default:
+            return Color(.systemIndigo)
+        }
+    }
 }
 
 enum FetchError: Error{
@@ -37,9 +62,8 @@ class PokemonModel {
             throw FetchError.badURL }
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let data = data.removeNullsFrom(string: "null,") else { throw FetchError.badData }
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw FetchError.badResponse }
-
+        guard let data = data.removeNullsFrom(string: "null,") else { throw FetchError.badData }
         
         let maybePokemonData = try JSONDecoder().decode([Pokemon].self, from: data)
         return maybePokemonData

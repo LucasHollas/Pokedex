@@ -14,11 +14,46 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(pokemon) { poke in
-                Text(poke.name)
+                HStack {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(poke.name.capitalized)
+                            .font(.title)
+                        HStack{
+                            Text(poke.type.capitalized)
+                                .italic()
+                            Circle()
+                                .foregroundColor(poke.typeColor)
+                                .frame(width: 10, height: 10)
+                        }
+                        Text(poke.description)
+                            .font(.caption)
+                            .lineLimit(2)
+                    }
+                    
+                    Spacer()
+                    
+                    AsyncImage(url: URL(string:
+                        poke.imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image.resizable()
+                                .interpolation(.none)
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                        case .failure:
+                            Image(systemName: "photo")
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                }
                 
             }
+            .navigationTitle("Pokemon")
         }
-        .navigationTitle("Pokemon")
+
         .onAppear {
             Task.init {
                 pokemon = try! await pokemonModel.getPokemon()
@@ -29,9 +64,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-            .previewDevice(PreviewDevice(rawValue: "iPhone 14"))
-            .previewDisplayName("iPhone 14")
-        
+        ContentView()        
     }
 }
