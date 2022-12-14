@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ContentView: View {
-    var pokemonModel = PokemonModel()
+    var pokemonModel = PokemonViewModel()
     @State private var pokemon = [Pokemon]()
     
     var body: some View {
@@ -32,22 +33,11 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    AsyncImage(url: URL(string:
-                        poke.imageURL)) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image.resizable()
-                                .interpolation(.none)
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                        case .failure:
-                            Image(systemName: "photo")
-                        @unknown default:
-                            EmptyView()
-                        }
-                    }
+                    KFImage(URL(string: poke.imageURL))
+                        .interpolation(.none)
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                    
                 }
                 
             }

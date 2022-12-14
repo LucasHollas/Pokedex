@@ -1,5 +1,5 @@
 //
-//  PokemonModel.swift
+//  PokemonViewModel.swift
 //  Pokedex
 //
 //  Created by Lucas Hollas on 11/12/22.
@@ -67,7 +67,15 @@ enum FetchError: Error{
     case badData
 }
 
-class PokemonModel {
+class PokemonViewModel: ObservableObject {
+    @Published var pokemon = [Pokemon]()
+    
+    init(){
+        Task.init {
+            pokemon = try await getPokemon()
+        }
+    }
+    
     func getPokemon() async throws -> [Pokemon] {
         guard let url = URL(string: "https://pokedex-bb36f.firebaseio.com/pokemon.json") else {
             throw FetchError.badURL }
@@ -79,6 +87,7 @@ class PokemonModel {
         let maybePokemonData = try JSONDecoder().decode([Pokemon].self, from: data)
         return maybePokemonData
     }
+    let MOCK_POKEMON = Pokemon(id: 0, name: "Bulbasaur", imageURL: "https://firebasestorage.googleapis.co...", type: "poison", description: "This is a test example of what the text in the description would look like for the given pokemon. This is a test example of what the text in the description would look like for the given pokemon.", attack: 49, defense: 52, height: 10, weight: 98)
 }
 
 extension Data {
