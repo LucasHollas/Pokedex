@@ -9,12 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct ContentView: View {
-    var pokemonModel = PokemonViewModel()
-    @State private var pokemon = [Pokemon]()
+    @ObservedObject var pokemonVM = PokemonViewModel()
     
     var body: some View {
         NavigationView {
-            List(pokemon) { poke in
+            List(pokemonVM.pokemon) { poke in
+                NavigationLink(destination: PokemonDetailView(pokemon: poke)){
+                    
+                
                 HStack {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(poke.name.capitalized)
@@ -42,11 +44,6 @@ struct ContentView: View {
                 
             }
             .navigationTitle("Pokemon")
-        }
-
-        .onAppear {
-            Task.init {
-                pokemon = try! await pokemonModel.getPokemon()
             }
         }
     }
