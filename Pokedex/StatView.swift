@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct StatView: View {
     var pokemon: Pokemon
@@ -22,13 +23,22 @@ struct StatView: View {
                 RoundedRectangle(cornerRadius: 5)
                     .foregroundColor(.gray)
                     .frame(width: 150, height: 20)
+                
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundColor(statColor)
+                    .frame(width: statValue <= 100 ? 150 *
+                           (CGFloat(statValue) / 100) : 150,
+                           height: 20)
             }
+            Text("\(statValue)")
+                .font(.system(.body, design: .monospaced))
         }
     }
 }
 
 struct StatView_Previews: PreviewProvider {
     static var previews: some View {
-        StatView()
+        StatView(pokemon: PokemonViewModel().MOCK_POKEMON,
+                 statName: "Atk", statColor: .blue, statValue: 55)
     }
 }
