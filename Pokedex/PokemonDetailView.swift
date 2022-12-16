@@ -40,6 +40,7 @@ struct PokemonDetailView: View {
                             Label("Favorite", systemImage:
                                     "star.fill")
                             .foregroundColor(pokemon.typeColor)
+                            .padding(5)
                             .background(Capsule()
                                 .foregroundColor(.white))
                         }
@@ -50,6 +51,17 @@ struct PokemonDetailView: View {
                         .padding()
                         
                         StatsViewGroup(pokemon: pokemon)
+                    }
+                    .offset(y: -40)
+                    .scaleEffect(scale)
+                    .onAppear {
+                        let baseAnimation = Animation
+                            .spring(dampingFraction: 0.5)
+                        let repeated = baseAnimation.repeatCount(1)
+                        
+                        withAnimation(repeated) {
+                            scale = 1
+                        }
                     }
                 }
             }
