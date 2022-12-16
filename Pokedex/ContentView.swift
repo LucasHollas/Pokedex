@@ -31,7 +31,7 @@ struct ContentView: View {
                                     if poke.isFavorite {
                                         Image(systemName: "star.fill")
                                             .foregroundColor(.yellow)
-                                    }
+                                     }
                                 }
                                 HStack{
                                     Text(poke.type.capitalized)

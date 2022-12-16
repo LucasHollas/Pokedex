@@ -24,7 +24,7 @@ struct PokemonDetailView: View {
                     .foregroundColor(pokemon.typeColor)
                 
                 PokemonImage(image: KFImage(URL(string:
-                    pokemon.imageURL)))
+                                                    pokemon.imageURL)))
                 .padding(.bottom, -100)
                 .zIndex(1)
                 
