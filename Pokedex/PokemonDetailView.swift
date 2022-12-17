@@ -11,8 +11,7 @@ import Kingfisher
 struct PokemonDetailView: View {
     var pokemon: Pokemon
     @State private var scale: CGFloat = 0
-    
-    
+     
     var body: some View {
         GeometryReader { geo in
             VStack {
